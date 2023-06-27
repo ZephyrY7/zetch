@@ -83,7 +83,7 @@ int countPkgs(char *path){
   // count folders in directory
   do{
     // ensure attribute is directory, excludes current "." & parent directory ".."
-    if ((fData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && strcmp(fData.cFileName, ".") != 0 && strcmp(fData.cFileName, "..") != 0) {
+    if ((fData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && strcmp(fData.cFileName, ".") != 0 && strcmp(fData.cFileName, "..") != 0 && strcmp(fData.cFileName, "scoop") !=0) {
       count++;
     }
   } while (FindNextFile(fHandle, &fData));
