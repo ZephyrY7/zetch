@@ -1,9 +1,9 @@
 # zetch
 
-## Intro
+## intro
 - my own grasp of system fetching tools written in **C** for **WINDOWS**
 
-## to-dos
+## features
 
 - [x] hostname
 - [x] build number

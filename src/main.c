@@ -7,6 +7,14 @@
 #define arrow "\x1b[38;2;249;226;175m"    // #f9e2af
 #define text "\x1b[38;2;205;214;244m"     // #cdd6f4
 
+#define RED     "\x1b[31m"
+#define GREEN   "\x1b[32m"
+#define YELLOW  "\x1b[33m"
+#define BLUE    "\x1b[34m"
+#define MAGENTA "\x1b[35m"
+#define CYAN    "\x1b[36m"
+#define RESET   "\x1b[0m"
+
 int main(){
   // get hostname
   char hostname[MAX_COMPUTERNAME_LENGTH];
@@ -27,13 +35,16 @@ int main(){
   // get packages
   int pkgs = getPkgs();
 
-  printf(ascii"\n  \\    /\\ "  glyph"  \uf007  " arrow"~>" text" %s\n", hostname);
-  printf(ascii"   )  ( ')"      glyph"  \ue796  " arrow"~>" text" %s\n", buildnum);
-  printf(ascii"  (  /  ) "      glyph"  \ue388  " arrow"~>" text" %s\n", uptime);
-  printf(ascii"   \\(__)| "     glyph"  \ue266  " arrow"~>" text" %s\n", memusage);
+  // print system information with ascii
+  printf(ascii"\n\n  \\    /\\ "  glyph"  \uf2c0  " arrow"~>" text" %s\n", hostname);
+  printf(ascii"   )  ( ')"        glyph"  \ueaf8  " arrow"~>" text" %s\n", buildnum);
+  printf(ascii"  (  /  ) "        glyph"  \uf017  " arrow"~>" text" %s\n", uptime);
+  printf(ascii"   \\(__)| "       glyph"  \uf51e  " arrow"~>" text" %s\n", memusage);
   if (pkgs != 0){
-    printf("          "         glyph"  \ueb29  " arrow"~>" text" %d (scoop)\n", pkgs);
+    printf("          "           glyph"  \ueb29  " arrow"~>" text" %d (scoop)\n", pkgs);
   }
-
+  // print colored bar
+  printf("\n     " RED "\u25CF   " GREEN "\u25CF   " YELLOW "\u25CF   " BLUE "\u25CF   " MAGENTA "\u25CF   " CYAN "\u25CF   " RESET "\u25CF   \n\n");
+  
   return 0;
 }
