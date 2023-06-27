@@ -41,8 +41,13 @@ void getUptime(char *uptime){
   // convert minutes to hours
   DWORD hours = minutes / 60;
 
+  if (hours % 24 == 0){
+    snprintf(uptime, MAX_PATH, "%ld minutes", minutes % 60);
+  } else {
+    snprintf(uptime, MAX_PATH, "%ld hours %ld minutes", hours % 24, minutes % 60);
+  }
   // format result to string and return to *uptime
-  snprintf(uptime, MAX_PATH, "%ld Hours %ld Minutes", hours % 24, minutes % 60);
+  
 }
 
 void getMemory(char *memusage){
@@ -82,7 +87,7 @@ int countPkgs(char *path){
   }
   // count folders in directory
   do{
-    // ensure attribute is directory, excludes current "." & parent directory ".."
+    // ensure attribute is directory, excludes current "." & parent directory ".." & scoop itself
     if ((fData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && strcmp(fData.cFileName, ".") != 0 && strcmp(fData.cFileName, "..") != 0 && strcmp(fData.cFileName, "scoop") !=0) {
       count++;
     }
@@ -93,6 +98,7 @@ int countPkgs(char *path){
 }
 
 int getPkgs(){
+  // get user environment 
   const char* userProfile = getenv("USERPROFILE");
   if (userProfile != NULL){
     char path[MAX_PATH];
@@ -100,6 +106,8 @@ int getPkgs(){
     snprintf(path, MAX_PATH, "%s\\scoop\\apps\\", userProfile);
     if (pathCheck(path) == 1) {
       return countPkgs(path);
+    } else {
+      return 0;
     }
   } else {
     return 0;

@@ -9,6 +9,5 @@
 - [x] build number
 - [x] uptime
 - [x] memory usage
-- [x] packages count
-- [ ] colored output
-- [ ] configurations
+- [x] packages count (scoop)
+- [x] colored output
