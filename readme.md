@@ -3,6 +3,9 @@
 ## intro
 - my own grasp of system fetching tools written in **C** for **WINDOWS**
 
+## showcase
+![zetch](https://github.com/ZephyrY7/zetch/blob/main/screenshot.png?raw=true "zetch")
+
 ## features
 
 - [x] hostname
