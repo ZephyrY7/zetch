@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <windows.h>
 
 #include "fetches.h"
 
@@ -20,10 +19,15 @@ int main(){
   char memusage[MAX_PATH];
   getMemory(memusage);
 
+  // get packages
+  int pkgs = getPkgs();
+
+
   printf("  \uf007  ~> %s\n", hostname);
   printf("  \ue796  ~> %s\n", buildnum);
   printf("  \ue388  ~> %s\n", uptime);
   printf("  \ue266  ~> %s\n", memusage);
+  printf("  \ueb29  ~> %d\n", pkgs);
 
   return 0;
 }

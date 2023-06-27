@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <windows.h>
+
 #include "convert.h"
 
 void getHostname(char *hostname){
@@ -45,16 +48,60 @@ void getUptime(char *uptime){
 void getMemory(char *memusage){
   MEMORYSTATUSEX memoryStatus = {sizeof(memoryStatus)};
   if (GlobalMemoryStatusEx(&memoryStatus)) {
-    double totalPhysicalMemory = memoryStatus.ullTotalPhys;
-    double usedPhysicalMemory = totalPhysicalMemory - memoryStatus.ullAvailPhys;
+    double totalPhyMem = memoryStatus.ullTotalPhys;
+    double usedPhyMem = totalPhyMem - memoryStatus.ullAvailPhys;
     
     //convert bytes to GB
-    usedPhysicalMemory = bytesToGB(usedPhysicalMemory);
-    totalPhysicalMemory = bytesToGB(totalPhysicalMemory);
+    usedPhyMem = bytesToGB(usedPhyMem);
+    totalPhyMem = bytesToGB(totalPhyMem);
     
     // format string to X.XX/X.XX GB
-    snprintf(memusage, MAX_PATH, "%.2f/%.2f GB", usedPhysicalMemory, totalPhysicalMemory);
+    snprintf(memusage, MAX_PATH, "%.2f/%.2f GB", usedPhyMem, totalPhyMem);
   } else {
     return;
+  }
+}
+
+int pathCheck(const char *path){
+  // return 1 if path exist, 0 if non
+  DWORD attributes = GetFileAttributesA(path);
+  return (attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY));
+}
+
+int countPkgs(char *path){
+  // initialize folder search vars
+  WIN32_FIND_DATAA fData;
+  HANDLE fHandle;
+  int count = 0;
+  // append *.* to find folders in directory (path)
+  snprintf(path, MAX_PATH, "%s\\*.*", path);
+  fHandle = FindFirstFile(path, &fData);
+  if (fHandle == INVALID_HANDLE_VALUE){
+    // if no file exist
+    return 0;
+  }
+  // count folders in directory
+  do{
+    // ensure attribute is directory, excludes current "." & parent directory ".."
+    if ((fData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && strcmp(fData.cFileName, ".") != 0 && strcmp(fData.cFileName, "..") != 0) {
+      count++;
+    }
+  } while (FindNextFile(fHandle, &fData));
+  // close file handler
+  FindClose(fHandle);
+  return count;
+}
+
+int getPkgs(){
+  const char* userProfile = getenv("USERPROFILE");
+  if (userProfile != NULL){
+    char path[MAX_PATH];
+    // scoop pkgs path
+    snprintf(path, MAX_PATH, "%s\\scoop\\apps\\", userProfile);
+    if (pathCheck(path) == 1) {
+      return countPkgs(path);
+    }
+  } else {
+    return 0;
   }
 }

@@ -9,6 +9,6 @@
 - [x] build number
 - [x] uptime
 - [x] memory usage
-- [ ] packages count
+- [x] packages count
 - [ ] colored output
 - [ ] configurations
