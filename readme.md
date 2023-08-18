@@ -4,7 +4,7 @@
 - my own grasp of system fetching tools written in **C** for **WINDOWS**
 
 ## showcase
-![zetch](.\screenshot.png "zetch")
+![zetch](./screenshot.png "zetch")
 
 ## installation
 
