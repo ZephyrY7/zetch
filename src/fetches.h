@@ -41,10 +41,14 @@ void getUptime(char *uptime){
   // convert minutes to hours
   DWORD hours = minutes / 60;
 
-  if (hours % 24 == 0){
-    snprintf(uptime, MAX_PATH, "%ld minutes", minutes % 60);
-  } else {
-    snprintf(uptime, MAX_PATH, "%ld hours %ld minutes", hours % 24, minutes % 60);
+  if (hours == 0){
+    snprintf(uptime, MAX_PATH, "%ld minutes", minutes);
+  } else if (hours == 1)
+  {
+    snprintf(uptime, MAX_PATH, "%ld hour %ld minutes", hours, minutes % 60);
+  } else
+   {
+    snprintf(uptime, MAX_PATH, "%ld hours %ld minutes", hours, minutes % 60);
   }
   // format result to string and return to *uptime
   
